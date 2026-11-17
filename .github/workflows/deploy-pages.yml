@@ -42,8 +42,17 @@ jobs:
           echo "Checking customer-facing page: $BASE"
           curl --retry 8 --retry-all-errors --retry-delay 4 --connect-timeout 15 --max-time 25 -fsSL "$BASE" -o /tmp/mayer-index.html
           grep -Fq "Mayer Zeltwanger" /tmp/mayer-index.html
+          grep -Fq "assets/metalldach.webp" /tmp/mayer-index.html
+          grep -Fq "assets/fassade.webp" /tmp/mayer-index.html
+          grep -Fq "assets/dachentwaesserung.webp" /tmp/mayer-index.html
+          grep -Fq "assets/falzdetail.webp" /tmp/mayer-index.html
           for file in leistungen.html kontakt.html assets/styles.css assets/script.js assets/favicon.svg assets/hero.webp assets/metalldach.webp assets/fassade.webp assets/dachentwaesserung.webp assets/falzdetail.webp; do
             echo "Checking $file"
             curl --retry 5 --retry-all-errors --retry-delay 3 --connect-timeout 15 --max-time 25 -fsSL "$BASE$file" -o /dev/null
           done
+          curl -fsSL "$BASE/assets/styles.css?v=photo-20261117" -o /tmp/mayer-styles.css
+          grep -Fq "hero.webp" /tmp/mayer-styles.css
+          curl -fsSL "$BASE/leistungen.html" -o /tmp/mayer-services.html
+          grep -Fq "assets/metalldach.webp" /tmp/mayer-services.html
+          grep -Fq "assets/falzdetail.webp" /tmp/mayer-services.html
           echo "VERIFIED LIVE: $BASE"
