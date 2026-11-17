@@ -34,3 +34,16 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+      - name: Verify published demo
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE="https://kemcap.github.io/kemcap-creaid-demos/mayer-zeltwanger/"
+          echo "Checking customer-facing page: $BASE"
+          curl --retry 8 --retry-all-errors --retry-delay 4 --connect-timeout 15 --max-time 25 -fsSL "$BASE" -o /tmp/mayer-index.html
+          grep -Fq "Mayer Zeltwanger" /tmp/mayer-index.html
+          for file in leistungen.html kontakt.html assets/styles.css assets/script.js assets/favicon.svg; do
+            echo "Checking $file"
+            curl --retry 5 --retry-all-errors --retry-delay 3 --connect-timeout 15 --max-time 25 -fsSL "$BASE$file" -o /dev/null
+          done
+          echo "VERIFIED LIVE: $BASE"
