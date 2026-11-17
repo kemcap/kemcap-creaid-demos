@@ -42,7 +42,7 @@ jobs:
           echo "Checking customer-facing page: $BASE"
           curl --retry 8 --retry-all-errors --retry-delay 4 --connect-timeout 15 --max-time 25 -fsSL "$BASE" -o /tmp/mayer-index.html
           grep -Fq "Mayer Zeltwanger" /tmp/mayer-index.html
-          for file in leistungen.html kontakt.html assets/styles.css assets/script.js assets/favicon.svg; do
+          for file in leistungen.html kontakt.html assets/styles.css assets/script.js assets/favicon.svg assets/hero.webp assets/metalldach.webp assets/fassade.webp assets/dachentwaesserung.webp assets/falzdetail.webp; do
             echo "Checking $file"
             curl --retry 5 --retry-all-errors --retry-delay 3 --connect-timeout 15 --max-time 25 -fsSL "$BASE$file" -o /dev/null
           done
